@@ -33,7 +33,6 @@ public class TimelineFrame extends JFrame {
 	}
 	
 	public void init() {	
-		_image = new FlickrImage();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		panel = new JPanel();
@@ -57,16 +56,22 @@ public class TimelineFrame extends JFrame {
 		_updateButton = new JButton("Update");
 		_updateButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {		
+			public void mouseClicked(MouseEvent e) {
+				_updateButton.setText("Updating..");
 				update();
+				_updateButton.setText("Update");
 			}
 		});
 		panel_2.add(_updateButton);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		_image = new FlickrImage();
+		_tweet = new Tweet();
 		update();
+		
 		setVisible(true);
+
 	}
 	
 	@Override
