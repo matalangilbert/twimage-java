@@ -22,6 +22,13 @@ import com.aetrion.flickr.photos.PhotoList;
 import com.aetrion.flickr.photos.PhotosInterface;
 import com.aetrion.flickr.photos.SearchParameters;
 
+
+
+/**
+ * Wrapper class for the Flickr API.
+ * Requires a flickrj.properties file in the root of the application directory. See README for more details.
+ * @author Mat Alan Gilbert
+ */
 public class FlickrImage {
 	private static String _apiKey=null;
 	private static String _secret=null;
@@ -35,6 +42,10 @@ public class FlickrImage {
 		}
 	}
 	
+	/**
+	 * Get the next medium sized image from Flickr.
+	 * @return a new medium sized image
+	 */
 	public BufferedImage getNextMediumImage() {
 		UpdateImage();
 		return _mediumImage;

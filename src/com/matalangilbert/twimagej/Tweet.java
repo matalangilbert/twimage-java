@@ -9,9 +9,18 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 
 
+/**
+ * Wrapper class for the Twitter API.
+ * Requires a twitter4j.properties file in the root of the application directory. See README for more details.
+ * @author Mat Alan Gilbert
+ */
 public class Tweet {
 	private Status _status=null;
 		
+	/**
+	 * Get the next tweet from the Twitter API.
+	 * @return the text content of the tweet.
+	 */
 	public String getNextStatusText() {
 		updateStatus();
 		return _status.getText();
