@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Properties;
 import java.util.Random;
 
@@ -15,7 +13,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import com.aetrion.flickr.*;
+import com.aetrion.flickr.Flickr;
+import com.aetrion.flickr.FlickrException;
+import com.aetrion.flickr.REST;
+import com.aetrion.flickr.Transport;
 import com.aetrion.flickr.photos.Photo;
 import com.aetrion.flickr.photos.PhotoList;
 import com.aetrion.flickr.photos.PhotosInterface;
@@ -34,19 +35,12 @@ public class FlickrImage {
 		}
 	}
 	
-	public BufferedImage getMediumImage() {
-		if (_mediumImage==null){
-			UpdateImage();
-		}
-		return _mediumImage;
-	}
-	
 	public BufferedImage getNextMediumImage() {
 		UpdateImage();
 		return _mediumImage;
 	}
 	
-	public void UpdateImage() {
+	private void UpdateImage() {
 		try {
 			Transport t = new REST();
 			Flickr f = new Flickr(_apiKey,_secret,t);

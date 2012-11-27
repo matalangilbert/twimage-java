@@ -22,11 +22,12 @@ public class TimelineFrame extends JFrame {
 	private JButton _updateButton;
 	private JLabel _latestStatus, _lblImage;
 	private FlickrImage _image;
+	private Tweet _tweet;
 	private JPanel panel;
 	private JPanel panel_2;
 	
 	public TimelineFrame() {
-		super("Twimage-J");
+		super("Twimage!");
 		setSize(new Dimension(1000, 600));
 		init();
 	}
@@ -56,17 +57,15 @@ public class TimelineFrame extends JFrame {
 		_updateButton = new JButton("Update");
 		_updateButton.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				_latestStatus.setText(UpdateStatus.getNew().getText());
-				
-				updateImage();
+			public void mouseClicked(MouseEvent e) {		
+				update();
 			}
 		});
 		panel_2.add(_updateButton);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		updateImage();
+		update();
 		setVisible(true);
 	}
 	
@@ -75,9 +74,9 @@ public class TimelineFrame extends JFrame {
 		return (new Insets(40, 10, 20, 10));
 	}
 
-	
-	private void updateImage() {
-		//_lblImage.setIcon(new ImageIcon(_image.getNextMediumImage()));
+	private void update() {
+		_lblImage.setIcon(new ImageIcon(_image.getNextMediumImage()));
+		_latestStatus.setText(_tweet.getNextStatusText());
 	}
 
 }
