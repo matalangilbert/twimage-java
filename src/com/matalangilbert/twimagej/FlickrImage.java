@@ -24,18 +24,31 @@ import com.aetrion.flickr.photos.SearchParameters;
 public class FlickrImage {
 	private static String _apiKey=null;
 	private static String _secret=null;
+	private final int NUMBER_OF_IMAGES = 400;
 	
-	public static BufferedImage getNew(){
-		
+	private BufferedImage _mediumImage=null;;
+	
+	public FlickrImage() {
 		if (_apiKey == null) {
 			LoadProperties();
 		}
-		
-		final int NUMBER_OF_IMAGES = 400;
-		
-		Transport t;
+	}
+	
+	public BufferedImage getMediumImage() {
+		if (_mediumImage==null){
+			UpdateImage();
+		}
+		return _mediumImage;
+	}
+	
+	public BufferedImage getNextMediumImage() {
+		UpdateImage();
+		return _mediumImage;
+	}
+	
+	public void UpdateImage() {
 		try {
-			t = new REST();
+			Transport t = new REST();
 			Flickr f = new Flickr(_apiKey,_secret,t);
 			
 			SearchParameters searchParams = new SearchParameters();
@@ -52,26 +65,18 @@ public class FlickrImage {
 			
 			Photo photo = (Photo)photoList.get(rand.nextInt(NUMBER_OF_IMAGES));
 			
-			BufferedImage img = ImageIO.read(new URL(photo.getMediumUrl()));
-			
-			return(img);	
-			
+			_mediumImage = ImageIO.read(new URL(photo.getMediumUrl()));						
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FlickrException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;		
 	}
-
+	
 	private static void LoadProperties() {
 		Properties flickrProperties = new Properties();
 		FileInputStream in;

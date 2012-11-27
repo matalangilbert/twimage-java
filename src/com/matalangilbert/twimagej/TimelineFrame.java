@@ -1,80 +1,83 @@
 package com.matalangilbert.twimagej;
 
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
+import java.awt.Insets;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import javax.swing.SwingConstants;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-import twitter4j.*;
 
-
-public class TimelineFrame extends JFrame implements ActionListener{
+public class TimelineFrame extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton _updateButton;
 	private JLabel _latestStatus, _lblImage;
+	private FlickrImage _image;
+	private JPanel panel;
+	private JPanel panel_2;
 	
 	public TimelineFrame() {
 		super("Twimage-J");
+		setSize(new Dimension(1000, 600));
 		init();
 	}
 	
 	public void init() {	
-		setLookAndFeel();
-		setSize(800, 600);
+		_image = new FlickrImage();
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		GridLayout grid = new GridLayout(3,1);
-		setLayout(grid);
+		panel = new JPanel();
+		getContentPane().add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		_lblImage = new JLabel();
+		_lblImage.setHorizontalAlignment(SwingConstants.CENTER);
+
+		_lblImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(_lblImage);
+		
+		_latestStatus = new JLabel();
+		_latestStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		_latestStatus.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(_latestStatus, BorderLayout.SOUTH);
+		
+		panel_2 = new JPanel();
+		getContentPane().add(panel_2, BorderLayout.SOUTH);
 		
 		_updateButton = new JButton("Update");
-		_updateButton.setActionCommand("update");
-		_updateButton.addActionListener(this);
+		_updateButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				_latestStatus.setText(UpdateStatus.getNew().getText());
+				
+				updateImage();
+			}
+		});
+		panel_2.add(_updateButton);
 		
-		_latestStatus = new JLabel((UpdateStatus.getNew().getText()),JLabel.CENTER);
-		
-		_lblImage = new JLabel(new ImageIcon(FlickrImage.getNew()));
-		
-		add(_updateButton);
-		add(_latestStatus);
-		add(_lblImage);
-			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		updateImage();
 		setVisible(true);
 	}
 	
-	private void setLookAndFeel() {
-		try {
-			UIManager.setLookAndFeel(
-					"com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"
-					);
-		} catch (Exception ex) {
-			// couldn't set new theme - default to old.
-		}
-	}
-
-
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		if("update".equals(e.getActionCommand())){
-			_latestStatus.setText(UpdateStatus.getNew().getText());
-			_lblImage.setIcon(new ImageIcon(FlickrImage.getNew()));
-		}
-		
+	public Insets getInsets() {
+		return (new Insets(40, 10, 20, 10));
 	}
+
 	
-	
-	
-	
+	private void updateImage() {
+		//_lblImage.setIcon(new ImageIcon(_image.getNextMediumImage()));
+	}
 
 }
