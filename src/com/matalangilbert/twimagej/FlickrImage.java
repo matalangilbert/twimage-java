@@ -51,11 +51,13 @@ public class FlickrImage {
 		return _mediumImage;
 	}
 	
+	//TODO: refactor to method-level SRP
 	private void UpdateImage() {
 		try {
 			Transport t = new REST();
 			Flickr f = new Flickr(_apiKey,_secret,t);
 			
+			// set up Flickr search query
 			SearchParameters searchParams = new SearchParameters();
 			searchParams.setSort(SearchParameters.INTERESTINGNESS_DESC);
 			searchParams.setSafeSearch("2");
@@ -64,13 +66,13 @@ public class FlickrImage {
 					"yes"};
 			searchParams.setTags(tags);
 			
-			PhotosInterface photosInterface = f.getPhotosInterface();
-			PhotoList photoList = photosInterface.search(searchParams, NUMBER_OF_IMAGES, 1);
+			PhotosInterface photosInterface = f.getPhotosInterface(); // use to search photos - see Flickr api for more details.
+			PhotoList photoList = photosInterface.search(searchParams, NUMBER_OF_IMAGES, 1); // search Flickr
 			Random rand = new Random();
 			
-			Photo photo = (Photo)photoList.get(rand.nextInt(NUMBER_OF_IMAGES));
+			Photo photo = (Photo)photoList.get(rand.nextInt(NUMBER_OF_IMAGES)); // select random image from search results.
 			
-			_mediumImage = ImageIO.read(new URL(photo.getMediumUrl()));						
+			_mediumImage = ImageIO.read(new URL(photo.getMediumUrl())); // download and buffer medium-sized image.
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

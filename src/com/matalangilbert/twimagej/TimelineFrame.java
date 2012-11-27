@@ -80,8 +80,8 @@ public class TimelineFrame extends JFrame {
 	}
 
 	private void update() {
-		_lblImage.setIcon(new ImageIcon(_image.getNextMediumImage()));
-		_latestStatus.setText(_tweet.getNextStatusText());
+		_lblImage.setIcon(new ImageIcon(_image.getNextMediumImage())); // change image
+		_latestStatus.setText(_tweet.getNextStatusText()); // change text
 	}
 
 }
