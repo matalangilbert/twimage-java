@@ -20,7 +20,7 @@ public class Tweet {
 	private void updateStatus() {
 		Twitter twitter = new TwitterFactory(
 				).getInstance();
-		Query query = new Query("happy -RT");
+		Query query = new Query("happy -RT -birthday -bday");
 		try {
 			QueryResult result = twitter.search(query);
 			_status = result.getTweets().get(0);
